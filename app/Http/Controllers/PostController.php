@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Post;
 use Illuminate\Contracts\View\View;
 
@@ -27,9 +27,22 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+                // Get the data from the request
+                $title = $request->input('title');
+                $content = $request->input('content');
+        
+                // Create a new Post instance and put the requested data to the corresponding column
+                $post = new Post;
+                $post->title = $title;
+                $post->content = $content;
+        
+                // Save the data
+                $post->save();
+        
+                return redirect()->route('posts.index');
+        
     }
 
     /**
